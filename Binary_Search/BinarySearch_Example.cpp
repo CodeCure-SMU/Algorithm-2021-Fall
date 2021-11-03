@@ -1,11 +1,9 @@
-// BOJ_1920.cpp
+// BinarySearch_Example.cpp
 #include <iostream>
-
-#include <algorithm>
 
 using namespace std;
 
-// arr에서 target의 위치 반환, 만약 없다면 -1을 반환
+// arr에서 target의 위치 반환, 만약 없다면 -1 반환
 int BinarySearch1(int arr[], int size, int target) {
 	int left = 0, right = size - 1;
 	while (left <= right) {
@@ -35,38 +33,33 @@ int BinarySearch2(int arr[], int size, int target) {
 	return right;
 }
 
-int main(void) {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL); cout.tie(NULL);
+// upper bound
+int BinarySearch3(int arr[], int size, int target) {
+	int left = -1, right = size;
+	while (left + 1 < right) {
+		int mid = (left + right) / 2;
+		if (arr[mid] <= target)
+			left = mid;
+		else
+			right = mid;
+	}
 
-	int n, arr[100'000];
+	return right;
+}
+
+int main(void) {
+	int n, arr[1000];
 	cin >> n;
 
 	for (int i = 0; i < n; i++)
 		cin >> arr[i];
 
-	sort(arr, arr + n);
+	int target;
+	cin >> target;
 
-	int m;
-	cin >> m;
-	for (int i = 0; i < m; i++) {
-		int target;
-		cin >> target;
-
-		// Binary Search 1을 쓸 때
-		if (BinarySearch1(arr, n, target) != -1)
-			cout << 1;
-
-		// Binary Search 2를 쓸 때
-		int idx = BinarySearch2(arr, n, target);
-		if (idx < n && arr[idx] == target)
-			cout << 1;
-
-		// 모두 공통
-		else
-			cout << 0;
-		cout << '\n';
-	}
+	cout << BinarySearch1(arr, n, target) << endl;
+	cout << BinarySearch2(arr, n, target) << endl;
+	cout << BinarySearch3(arr, n, target) << endl;
 
 	return 0;
 }
